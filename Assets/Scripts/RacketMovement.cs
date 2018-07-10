@@ -5,11 +5,12 @@ using UnityEngine;
 public class RacketMovement : MonoBehaviour {
 
 	public int m_PlayerNumber = 1;         
-	public float m_Speed = 12f;            
+	public float m_Speed = 12f;
+	public float boundY = 5f;
 
 	private string m_MovementAxisName;
 	private float m_MovementInputValue;
-	private Rigidbody m_Rigidbody;         
+	private Rigidbody m_Rigidbody;
 
 	private void Awake()
 	{
@@ -36,6 +37,8 @@ public class RacketMovement : MonoBehaviour {
 		// Adjust the position of the tank based on the player's input.
 		Vector3 movement = transform.up * m_MovementInputValue * m_Speed * Time.deltaTime;
 
-		m_Rigidbody.MovePosition (m_Rigidbody.position + movement);
+		if (Mathf.Abs (m_Rigidbody.position.y + movement.y) < boundY) {
+			m_Rigidbody.MovePosition (m_Rigidbody.position + movement);
+		}
 	}
 }
