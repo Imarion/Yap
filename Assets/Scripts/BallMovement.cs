@@ -17,10 +17,18 @@ public class BallMovement : MonoBehaviour {
 
 	private void Start()
 	{
-		Vector3 spawndir = Random.onUnitSphere;
 		//Vector3 spawndir = new Vector3(1.0f, 0.0f, 0.0f);
-		spawndir.z = 0;
+		//Vector3 spawndir = Random.onUnitSphere;
+		//spawndir.z = 0;
+		Vector2 spawndir = Vector2.zero;
+		float cos = 0;
+		while (Mathf.Abs(cos) < 0.707) { // 0.707 = sqrt(2) / 2
+			spawndir = Random.insideUnitCircle.normalized;
+			cos = Vector2.Dot (spawndir, new Vector2 (1, 0));
+			Debug.Log (cos);
+		}
 		rb.velocity = spawndir * speed;
+		Debug.Log (rb.velocity);
 	}
 
 	private void Update()
@@ -61,6 +69,6 @@ public class BallMovement : MonoBehaviour {
 	//calculates the angle the ball hits the paddle at
 	float launchAngle(Vector2 ball, Vector2 paddle, float paddleHeight) {
 		//return (ball.y - paddle.y) / paddleHeight;
-		return (ball.y - paddle.y) / 1;
+		return ball.y - paddle.y;
 	}
 }

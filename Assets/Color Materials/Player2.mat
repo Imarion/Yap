@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: BallMat
+  m_Name: Player2
   m_Shader: {fileID: 10755, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -72,5 +72,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.8191977, g: 0.8773585, b: 0.23589355, a: 1}
+    - _Color: {r: 0.9622642, g: 0.56737274, b: 0.69283366, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

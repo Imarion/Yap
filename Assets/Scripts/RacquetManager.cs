@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class RacquetManager {
 
-	public Color playerColor;
+	public Material playerMaterial;
 	public Transform spawnPoint;
 
 	[HideInInspector] public int playerNumber = 1;
@@ -20,6 +20,6 @@ public class RacquetManager {
 		racquetMovement.playerNumber = playerNumber;
 
 		MeshRenderer meshr = instance.GetComponent<MeshRenderer> ();
-		meshr.material.color = playerColor;
+		meshr.material = playerMaterial;
 	}
 }
