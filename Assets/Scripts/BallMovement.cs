@@ -9,6 +9,7 @@ public class BallMovement : MonoBehaviour {
 	private Vector3 vel;
 
 	private Rigidbody rb;
+	private Vector2 spawndir = Vector2.zero;
 
 	private void Awake()
 	{
@@ -20,19 +21,25 @@ public class BallMovement : MonoBehaviour {
 		//Vector3 spawndir = new Vector3(1.0f, 0.0f, 0.0f);
 		//Vector3 spawndir = Random.onUnitSphere;
 		//spawndir.z = 0;
-		Vector2 spawndir = Vector2.zero;
+		Invoke("Go", 3);
+
 		float cos = 0;
 		while (Mathf.Abs(cos) < 0.707) { // 0.707 = sqrt(2) / 2
 			spawndir = Random.insideUnitCircle.normalized;
 			cos = Vector2.Dot (spawndir, new Vector2 (1, 0));
 			Debug.Log (cos);
 		}
-		rb.velocity = spawndir * speed;
+
 		Debug.Log (rb.velocity);
 	}
 
 	private void Update()
 	{
+	}
+
+	private void Go()
+	{
+		rb.velocity = spawndir * speed;
 	}
 
 	private void FixedUpdate()
