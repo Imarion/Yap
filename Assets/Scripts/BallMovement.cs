@@ -21,8 +21,26 @@ public class BallMovement : MonoBehaviour {
 		//Vector3 spawndir = new Vector3(1.0f, 0.0f, 0.0f);
 		//Vector3 spawndir = Random.onUnitSphere;
 		//spawndir.z = 0;
-		Invoke("Go", 3);
+		//Invoke("Go", 3);
+	}
 
+	private void Update()
+	{
+		
+	}
+
+	private void FixedUpdate()
+	{
+		Move ();
+	}
+
+	public void Reset()
+	{
+		rb.position = new Vector3(0, 0, 0);
+	}		
+
+	public void Go()
+	{
 		float cos = 0;
 		while (Mathf.Abs(cos) < 0.707) { // 0.707 = sqrt(2) / 2
 			spawndir = Random.insideUnitCircle.normalized;
@@ -31,20 +49,8 @@ public class BallMovement : MonoBehaviour {
 		}
 
 		Debug.Log (rb.velocity);
-	}
 
-	private void Update()
-	{
-	}
-
-	private void Go()
-	{
 		rb.velocity = spawndir * speed;
-	}
-
-	private void FixedUpdate()
-	{
-		Move ();
 	}
 
 	private void Move()

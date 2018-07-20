@@ -5,12 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class SideWall : MonoBehaviour {
 
+	[HideInInspector] public bool hit = false;
+
 	void OnTriggerEnter (Collider hitInfo) {
-		Debug.Log ("Trigger enter");
 		if (hitInfo.name == "Ball")
 		{
-			Debug.Log ("Ball");
-			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+			Debug.Log (this.name);
+			hit = true;
+
+			//SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		}
 	}
 }
