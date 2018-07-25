@@ -9,7 +9,7 @@ public class RacquetManager {
 
 	public Material playerMaterial;
 	public Transform spawnPoint;
-	public SideWall wall;
+	public SideWall wall; // This reference is used in the Game Manager.
 	public Text scoreText;
 
 	[HideInInspector] public int playerNumber = 1;

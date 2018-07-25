@@ -10,7 +10,7 @@ public class SideWall : MonoBehaviour {
 	void OnTriggerEnter (Collider hitInfo) {
 		if (hitInfo.name == "Ball")
 		{
-			Debug.Log (this.name);
+			//Debug.Log (this.name);
 			hit = true;
 
 			//SceneManager.LoadScene(SceneManager.GetActiveScene().name);

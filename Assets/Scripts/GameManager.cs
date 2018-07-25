@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour {
 	private void Restart() {
 		Debug.Log ("Game manager restart");	
 
-		ball.Go ();
+		//ball.Go ();
 			
 	}
 
@@ -59,13 +59,14 @@ public class GameManager : MonoBehaviour {
 		Debug.Log ("RoundStarting");
 		ball.Reset ();
 		winnerPlayer = -1;
-		ball.Go ();
 
 		yield return StartWait;
 	}
 
 	private IEnumerator RoundPlaying () {
 		Debug.Log ("RoundPlaying");
+
+		ball.Go ();
 
 		while (!CheckWallHit()) {
 			yield return null;

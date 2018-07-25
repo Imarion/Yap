@@ -36,7 +36,8 @@ public class BallMovement : MonoBehaviour {
 
 	public void Reset()
 	{
-		rb.position = new Vector3(0, 0, 0);
+		rb.position = Vector3.zero;
+		rb.velocity = Vector3.zero;
 	}		
 
 	public void Go()
@@ -45,10 +46,10 @@ public class BallMovement : MonoBehaviour {
 		while (Mathf.Abs(cos) < 0.707) { // 0.707 = sqrt(2) / 2
 			spawndir = Random.insideUnitCircle.normalized;
 			cos = Vector2.Dot (spawndir, new Vector2 (1, 0));
-			Debug.Log (cos);
+			//Debug.Log (cos);
 		}
 
-		Debug.Log (rb.velocity);
+		//Debug.Log (rb.velocity);
 
 		rb.velocity = spawndir * speed;
 	}
@@ -75,7 +76,7 @@ public class BallMovement : MonoBehaviour {
 			}
 			rb.velocity = d * speed;
 
-			Debug.Log("After collision " + rb.velocity);
+			//Debug.Log("After collision " + rb.velocity);
 		}
 	}
 
