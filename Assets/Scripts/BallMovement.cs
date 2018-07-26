@@ -6,13 +6,16 @@ using System.Security.Policy;
 public class BallMovement : MonoBehaviour {
 
 	public float speed = 12f;
-	private Vector3 vel;
 
+	private Vector3 vel;
 	private Rigidbody rb;
 	private Vector2 spawndir = Vector2.zero;
+	private TrailRenderer trailr;
+	private float trailtime = 0.2f;
 
 	private void Awake()
 	{
+		trailr = GetComponent<TrailRenderer>();
 		rb = GetComponent<Rigidbody>();
 	}
 
@@ -36,9 +39,16 @@ public class BallMovement : MonoBehaviour {
 
 	public void Reset()
 	{
+		trailtime = trailr.time;
+		trailr.time = -1; // cancel trail effect when ball is set at <0, 0, 0>; trailr.Clear(); or enabled false do not work well.
 		rb.position = Vector3.zero;
 		rb.velocity = Vector3.zero;
+		Invoke ("ReseTrail", 0.1f);  // wait few frames before re activating the trail
 	}		
+
+	public void ReseTrail() {
+		trailr.time = trailtime;
+	}
 
 	public void Go()
 	{
