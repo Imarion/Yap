@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SideWall : MonoBehaviour {
 
+	public AudioSource hitSound;
+
 	[HideInInspector] public bool hit = false;
 
 	void OnTriggerEnter (Collider hitInfo) {
@@ -12,8 +14,13 @@ public class SideWall : MonoBehaviour {
 		{
 			//Debug.Log (this.name);
 			hit = true;
+			PlaySound ();
 
 			//SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		}
+	}
+
+	void PlaySound() {
+		hitSound.Play ();
 	}
 }

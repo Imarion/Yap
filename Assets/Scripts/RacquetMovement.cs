@@ -34,7 +34,7 @@ public class RacquetMovement : MonoBehaviour {
 
 	private void Move()
 	{
-		// Adjust the position of the tank based on the player's input.
+		// Adjust the position of the racquet based on the player's input.
 		Vector3 movement = transform.up * movementInputValue * speed * Time.deltaTime;
 
 		if (Mathf.Abs (GetComponent<Rigidbody>().position.y + movement.y) < boundY) {

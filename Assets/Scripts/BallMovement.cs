@@ -6,6 +6,7 @@ using System.Security.Policy;
 public class BallMovement : MonoBehaviour {
 
 	public float speed = 12f;
+	public AudioSource racquetHitSound;
 
 	private Vector3 vel;
 	private Rigidbody rb;
@@ -87,7 +88,12 @@ public class BallMovement : MonoBehaviour {
 			rb.velocity = d * speed;
 
 			//Debug.Log("After collision " + rb.velocity);
+			PlaySound();
 		}
+	}
+
+	void PlaySound () {
+		racquetHitSound.Play ();
 	}
 
 	//calculates the angle the ball hits the paddle at
