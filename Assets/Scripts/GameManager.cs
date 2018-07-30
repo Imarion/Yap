@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.WSA.Input;
+using System;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -9,9 +11,11 @@ public class GameManager : MonoBehaviour {
 	public GameObject racquetPrefab; 		// reference to the Prefab the player will control
 	public BallMovement ball;
 	public float StartDelay = 3f;         // The delay between the start of RoundStarting and RoundPlaying phases.
+	public int numRoundsToWin = 3;
 
-	private int winnerPlayer = -1;
 	private WaitForSeconds StartWait;         // Used to have a delay whilst the round starts.
+	private RacquetManager gameWinner;
+	private int roundWinner = -1;
 
 	// Use this for initialization
 	void Start () {
@@ -47,9 +51,12 @@ public class GameManager : MonoBehaviour {
 
 		yield return StartCoroutine (RoundPlaying ());
 
-		//yield return StartCoroutine (RoundEnding ());
+		yield return StartCoroutine (RoundEnding ());
 
-		if (winnerPlayer != -1) { // still no winner
+		if (gameWinner != null) { // we have a winner
+			//Application.LoadLevel (Application.loadedLevel);
+			SceneManager.LoadScene("Main");
+		} else {
 			StartCoroutine (GameLoop ());
 		}
 	}
@@ -58,7 +65,7 @@ public class GameManager : MonoBehaviour {
 
 		Debug.Log ("RoundStarting");
 		ball.Reset ();
-		winnerPlayer = -1;
+		roundWinner = -1;
 
 		yield return StartWait;
 	}
@@ -74,18 +81,39 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private IEnumerator RoundEnding () {
+		gameWinner = GetGameWinner ();
+
+		if (gameWinner != null) {
+			String wintext = "Player " + gameWinner.playerNumber.ToString () + " wins";
+			Debug.Log (wintext);
+		}	
+
 		yield return null;
 	}
 
 	private bool CheckWallHit() {
 		for (int i = 0; i < players.Length; i++) {
 			if (players [i].wall.hit) {
-				winnerPlayer = i;
+				roundWinner = i;
 				players [i].wall.hit = false;
-				players [winnerPlayer].Goal ();
-				Debug.Log (winnerPlayer);
+				players [roundWinner].Goal ();
+				Debug.Log (roundWinner);
 			}
 		}
-		return winnerPlayer != -1;
+		return roundWinner != -1;
+	}
+
+	private RacquetManager GetGameWinner()
+	{
+		// Go through all the racquets...
+		for (int i = 0; i < players.Length; i++)
+		{
+			// ... and if one of them has enough rounds to win the game, return it.
+			if (players[i].score >= numRoundsToWin)
+				return players[i];
+		}
+
+		// If no player has enough rounds to win, return null.
+		return null;
 	}
 }

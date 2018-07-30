@@ -14,9 +14,10 @@ public class RacquetManager {
 
 	[HideInInspector] public int playerNumber = 1;
 	[HideInInspector] public GameObject instance;
+	[HideInInspector] public uint score = 0;
 
 	private RacquetMovement racquetMovement;
-	private uint score = 0;
+
 
 	public void Setup() {
 		racquetMovement = instance.GetComponent <RacquetMovement>();
