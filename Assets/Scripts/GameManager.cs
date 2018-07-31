@@ -10,16 +10,20 @@ public class GameManager : MonoBehaviour {
 	public RacquetManager[] players;
 	public GameObject racquetPrefab; 		// reference to the Prefab the player will control
 	public BallMovement ball;
-	public float StartDelay = 3f;         // The delay between the start of RoundStarting and RoundPlaying phases.
+	public float StartDelay = 3f;       // The delay between the start of RoundStarting and RoundPlaying phases.
+	public float EndDelay = 3f;         // The delay when there is a winner; mostly useful to let the winning sound play to the end.
 	public int numRoundsToWin = 3;
+	public AudioSource gameWinSound;
 
 	private WaitForSeconds StartWait;         // Used to have a delay whilst the round starts.
+	private WaitForSeconds EndWait;         // Used to have a delay whilst the round ends.
 	private RacquetManager gameWinner;
 	private int roundWinner = -1;
 
 	// Use this for initialization
 	void Start () {
 		StartWait = new WaitForSeconds (StartDelay);
+		EndWait = new WaitForSeconds (EndDelay);
 
 		SpawnRacquets ();
 
@@ -85,7 +89,18 @@ public class GameManager : MonoBehaviour {
 
 		if (gameWinner != null) {
 			String wintext = "Player " + gameWinner.playerNumber.ToString () + " wins";
+
+			for (int i = 0; i < players.Length; i++)
+			{
+				if (players [i].wall.hitSound.isPlaying) {
+					players [i].wall.hitSound.Stop ();
+				}
+					
+			}
+			ball.Reset ();
+			gameWinSound.Play ();
 			Debug.Log (wintext);
+			yield return EndWait;
 		}	
 
 		yield return null;
