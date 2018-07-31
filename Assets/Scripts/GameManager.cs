@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.WSA.Input;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
@@ -14,11 +15,13 @@ public class GameManager : MonoBehaviour {
 	public float EndDelay = 3f;         // The delay when there is a winner; mostly useful to let the winning sound play to the end.
 	public int numRoundsToWin = 3;
 	public AudioSource gameWinSound;
+	public Text messageText;
 
 	private WaitForSeconds StartWait;         // Used to have a delay whilst the round starts.
 	private WaitForSeconds EndWait;         // Used to have a delay whilst the round ends.
 	private RacquetManager gameWinner;
-	private int roundWinner = -1;
+	private RacquetManager roundWinner;
+	private int roundNumber = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -69,13 +72,17 @@ public class GameManager : MonoBehaviour {
 
 		Debug.Log ("RoundStarting");
 		ball.Reset ();
-		roundWinner = -1;
+		roundWinner = null;
+
+		roundNumber++;
+		messageText.text = "ROUND " + roundNumber;
 
 		yield return StartWait;
 	}
 
 	private IEnumerator RoundPlaying () {
 		Debug.Log ("RoundPlaying");
+		messageText.text = string.Empty;
 
 		ball.Go ();
 
@@ -88,8 +95,6 @@ public class GameManager : MonoBehaviour {
 		gameWinner = GetGameWinner ();
 
 		if (gameWinner != null) {
-			String wintext = "Player " + gameWinner.playerNumber.ToString () + " wins";
-
 			for (int i = 0; i < players.Length; i++)
 			{
 				if (players [i].wall.hitSound.isPlaying) {
@@ -97,25 +102,27 @@ public class GameManager : MonoBehaviour {
 				}
 					
 			}
-			ball.Reset ();
 			gameWinSound.Play ();
-			Debug.Log (wintext);
-			yield return EndWait;
-		}	
+			//yield return EndWait;
+		}
 
-		yield return null;
+		Debug.Log (EndMessage());
+		ball.Reset ();
+		messageText.text = EndMessage ();
+		yield return EndWait;
+
 	}
 
 	private bool CheckWallHit() {
 		for (int i = 0; i < players.Length; i++) {
 			if (players [i].wall.hit) {
-				roundWinner = i;
+				roundWinner = players[i];
 				players [i].wall.hit = false;
-				players [roundWinner].Goal ();
-				Debug.Log (roundWinner);
+				roundWinner.Goal ();
+				Debug.Log (roundWinner.playerNumber);
 			}
 		}
-		return roundWinner != -1;
+		return roundWinner != null;
 	}
 
 	private RacquetManager GetGameWinner()
@@ -131,4 +138,32 @@ public class GameManager : MonoBehaviour {
 		// If no player has enough rounds to win, return null.
 		return null;
 	}
+
+	// Returns a string message to display.
+	private string EndMessage()
+	{
+		// By default when a round ends there are no winners so the default end message is a draw.
+		string message = "DRAW!";
+
+		// If there is a winner then change the message to reflect that.
+		if (roundWinner != null)
+			message = roundWinner.coloredPlayerText + " WINS THE ROUND!";
+
+		// Add some line breaks after the initial message.
+		message += "\n\n";
+
+		// Go through all the tanks and add each of their scores to the message.
+		for (int i = 0; i < players.Length; i++)
+		{
+			//message += "Player " + players[i].playerNumber.ToString() + ": " + players[i].score + " POINTS\n";
+			message += players[i].coloredPlayerText + ": " + players[i].score + " POINT(S)\n";
+		}
+
+		// If there is a game winner, change the entire message to reflect that.
+		if (gameWinner != null)
+			message = gameWinner.coloredPlayerText + " WINS THE GAME!";
+
+		return message;
+	}
+
 }
