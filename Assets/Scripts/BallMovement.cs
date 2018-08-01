@@ -83,7 +83,9 @@ public class BallMovement : MonoBehaviour {
 			} else {
 				d = new Vector2 (1, y).normalized;
 			}
-			curspeed *= acceleration;
+
+			if (curspeed < 9.6) // after 5 hits speed = 9.66306, after 6 hits speed = 10.629366
+				curspeed *= acceleration;
 			rb.velocity = d * curspeed;
 
 			PlaySound();
