@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.WSA.Input;
 using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -29,6 +28,8 @@ public class GameManager : MonoBehaviour {
 		EndWait = new WaitForSeconds (EndDelay);
 
 		SpawnRacquets ();
+
+		Screen.SetResolution (932 , 452, false, 60 );
 
 		StartCoroutine (GameLoop ());
 	}
