@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Security.Policy;
+using System.IO;
 
 public class BallMovement : MonoBehaviour {
 
-	public float speed = 12f;
+	public float speed = 6f;
+	public float acceleration = 1.1f;
 	public AudioSource racquetHitSound;
 
 	private Vector3 vel;
@@ -13,6 +15,7 @@ public class BallMovement : MonoBehaviour {
 	private Vector2 spawndir = Vector2.zero;
 	private TrailRenderer trailr;
 	private float trailtime = 0.2f;
+	private float curspeed;
 
 	private void Awake()
 	{
@@ -22,10 +25,7 @@ public class BallMovement : MonoBehaviour {
 
 	private void Start()
 	{
-		//Vector3 spawndir = new Vector3(1.0f, 0.0f, 0.0f);
-		//Vector3 spawndir = Random.onUnitSphere;
-		//spawndir.z = 0;
-		//Invoke("Go", 3);
+		curspeed = speed;
 	}
 
 	private void Update()
@@ -39,11 +39,12 @@ public class BallMovement : MonoBehaviour {
 	}
 
 	public void Reset()
-	{
+	{		
 		trailtime = trailr.time;
 		trailr.time = -1; // cancel trail effect when ball is set at <0, 0, 0>; trailr.Clear(); or enabled false do not work well.
 		rb.position = Vector3.zero;
 		rb.velocity = Vector3.zero;
+		curspeed = speed;
 		Invoke ("ReseTrail", 0.1f);  // wait few frames before re activating the trail
 	}		
 
@@ -57,17 +58,14 @@ public class BallMovement : MonoBehaviour {
 		while (Mathf.Abs(cos) < 0.707) { // 0.707 = sqrt(2) / 2
 			spawndir = Random.insideUnitCircle.normalized;
 			cos = Vector2.Dot (spawndir, new Vector2 (1, 0));
-			//Debug.Log (cos);
 		}
-
-		//Debug.Log (rb.velocity);
 
 		rb.velocity = spawndir * speed;
 	}
 
 	private void Move()
 	{
-		vel = rb.velocity; // Record the velocity to have the la&st one before the collision; otherwise at the time of collision vel.x = 0
+		vel = rb.velocity; // Record the velocity to have the last one before the collision; otherwise at the time of collision vel.x = 0
 	}
 
 	void OnCollisionEnter(Collision collision) {
@@ -85,9 +83,9 @@ public class BallMovement : MonoBehaviour {
 			} else {
 				d = new Vector2 (1, y).normalized;
 			}
-			rb.velocity = d * speed;
+			curspeed *= acceleration;
+			rb.velocity = d * curspeed;
 
-			//Debug.Log("After collision " + rb.velocity);
 			PlaySound();
 		}
 	}
