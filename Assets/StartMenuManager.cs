@@ -9,6 +9,10 @@ public class StartMenuManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+		// Resolution of the Canvas
+		Screen.SetResolution (932 , 452, false, 60 );
+
 		ball.Go ();
 	}
 	

@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour {
 
 		SpawnRacquets ();
 
+		// Resolution of the Canvas
 		Screen.SetResolution (932 , 452, false, 60 );
 
 		StartCoroutine (GameLoop ());
