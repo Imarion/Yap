@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour {
 
 		if (gameWinner != null) { // we have a winner
 			//Application.LoadLevel (Application.loadedLevel);
-			SceneManager.LoadScene("Main");
+			SceneManager.LoadScene("StartMenu");
 		} else {
 			StartCoroutine (GameLoop ());
 		}

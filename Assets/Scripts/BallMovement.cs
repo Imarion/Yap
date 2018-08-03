@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Security.Policy;
 using System.IO;
+using UnityEditor;
 
 public class BallMovement : MonoBehaviour {
 
 	public float speed = 6f;
 	public float acceleration = 1.1f;
 	public AudioSource racquetHitSound;
+	public bool randomDir = true;  // Main game -> true to get random direction; Start menu -> false
 
 	private Vector3 vel;
 	private Rigidbody rb;
@@ -54,10 +56,14 @@ public class BallMovement : MonoBehaviour {
 
 	public void Go()
 	{
-		float cos = 0;
-		while (Mathf.Abs(cos) < 0.707) { // 0.707 = sqrt(2) / 2
-			spawndir = Random.insideUnitCircle.normalized;
-			cos = Vector2.Dot (spawndir, new Vector2 (1, 0));
+		if (randomDir) {
+			float cos = 0;
+			while (Mathf.Abs (cos) < 0.707) { // 0.707 = sqrt(2) / 2
+				spawndir = Random.insideUnitCircle.normalized;
+				cos = Vector2.Dot (spawndir, new Vector2 (1, 0));
+			}
+		} else {
+			spawndir = new Vector2 (1.0f, 0.0f);
 		}
 
 		rb.velocity = spawndir * speed;
