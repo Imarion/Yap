@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 
 	public RacquetManager[] players;
-	public GameObject racquetPrefab; 		// reference to the Prefab the player will control
+	public GameObject racquetPrefab; 	// reference to the Prefab the player will control
 	public BallMovement ball;
 	public float StartDelay = 3f;       // The delay between the start of RoundStarting and RoundPlaying phases.
 	public float EndDelay = 3f;         // The delay when there is a winner; mostly useful to let the winning sound play to the end.
@@ -16,7 +16,9 @@ public class GameManager : MonoBehaviour {
 	public AudioSource gameWinSound;
 	public Text messageText;
 
-	private WaitForSeconds StartWait;         // Used to have a delay whilst the round starts.
+	public ObstacleManager om, omClone;
+
+	private WaitForSeconds StartWait;       // Used to have a delay whilst the round starts.
 	private WaitForSeconds EndWait;         // Used to have a delay whilst the round ends.
 	private RacquetManager gameWinner;
 	private RacquetManager roundWinner;
@@ -26,6 +28,10 @@ public class GameManager : MonoBehaviour {
 	void Start () {
 		StartWait = new WaitForSeconds (StartDelay);
 		EndWait = new WaitForSeconds (EndDelay);
+
+		if (PlayerPrefs.GetInt ("useSpecialBricks", 0) == 1) {
+			omClone = Instantiate (om);
+		}
 
 		SpawnRacquets ();
 
@@ -57,6 +63,8 @@ public class GameManager : MonoBehaviour {
 
 	private IEnumerator GameLoop () {
 		yield return StartCoroutine (RoundStarting ());
+
+		omClone.StartObstacleLoop ();
 
 		yield return StartCoroutine (RoundPlaying ());
 
@@ -111,6 +119,9 @@ public class GameManager : MonoBehaviour {
 		Debug.Log (EndMessage());
 		ball.Reset ();
 		messageText.text = EndMessage ();
+
+		om.StopObstacleLoop ();
+
 		yield return EndWait;
 
 	}
