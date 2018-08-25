@@ -9,6 +9,9 @@ public class ObstacleManager : MonoBehaviour {
 
 	private WaitForSeconds NewObstacleWait;
 	private int ObstacleIndex = -1;
+	private GameObject curObstacle;
+
+	private Coroutine ObstacleLoopCoroutine = null;
 
 	// Use this for initialization
 	void Start () {
@@ -25,18 +28,19 @@ public class ObstacleManager : MonoBehaviour {
 	}
 
 	public void StartObstacleLoop() {
-		StartCoroutine (ObstacleLoop ());
+		ObstacleLoopCoroutine = StartCoroutine (ObstacleLoop ());
 	}
 
 	public void StopObstacleLoop() {
 
-		if (Obstacles [ObstacleIndex] != null) {
-			Destroy (Obstacles [ObstacleIndex]);
+		StopCoroutine (ObstacleLoopCoroutine);
+
+		if (curObstacle) {
+			Destroy (curObstacle);
 		}
 			
 		ObstacleIndex = -1;
-
-		StopAllCoroutines ();
+		ObstacleLoopCoroutine = null;
 	}
 
 	private IEnumerator ObstacleLoop () {
@@ -46,7 +50,7 @@ public class ObstacleManager : MonoBehaviour {
 
 		CreateObstacle ();
 
-		StartCoroutine (ObstacleLoop ());
+		ObstacleLoopCoroutine = StartCoroutine (ObstacleLoop ());
 	}
 
 	private void SelectObstacle () {
@@ -54,6 +58,6 @@ public class ObstacleManager : MonoBehaviour {
 	}
 
 	private void CreateObstacle () {
-		Instantiate (Obstacles[ObstacleIndex]);
+		curObstacle = Instantiate (Obstacles[ObstacleIndex]);
 	}
 }

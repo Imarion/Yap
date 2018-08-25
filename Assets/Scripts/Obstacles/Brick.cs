@@ -8,11 +8,16 @@ public class Brick : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Debug.Log ("Brick constructed: " + Time.realtimeSinceStartup);
 		Destroy (this.gameObject, Lifetime);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	void OnDestroy() {
+		Debug.Log ("Brick destroyed: " + Time.realtimeSinceStartup);
 	}
 }

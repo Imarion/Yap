@@ -16,7 +16,8 @@ public class GameManager : MonoBehaviour {
 	public AudioSource gameWinSound;
 	public Text messageText;
 
-	public ObstacleManager om, omClone;
+	public ObstacleManager om;
+	private ObstacleManager omClone;
 
 	private WaitForSeconds StartWait;       // Used to have a delay whilst the round starts.
 	private WaitForSeconds EndWait;         // Used to have a delay whilst the round ends.
@@ -64,7 +65,10 @@ public class GameManager : MonoBehaviour {
 	private IEnumerator GameLoop () {
 		yield return StartCoroutine (RoundStarting ());
 
-		omClone.StartObstacleLoop ();
+		if (omClone) {
+			Debug.Log ("Gameloop start round and obstacle: " + Time.realtimeSinceStartup);
+			omClone.StartObstacleLoop ();
+		}
 
 		yield return StartCoroutine (RoundPlaying ());
 
@@ -120,7 +124,10 @@ public class GameManager : MonoBehaviour {
 		ball.Reset ();
 		messageText.text = EndMessage ();
 
-		om.StopObstacleLoop ();
+		if (omClone) {
+			Debug.Log ("Gameloop end round stop obstacle: " + Time.realtimeSinceStartup);
+			omClone.StopObstacleLoop ();
+		}
 
 		yield return EndWait;
 
