@@ -6,6 +6,8 @@ public class Brick : MonoBehaviour {
 
 	public float Lifetime = 3;
 
+	public AudioSource BallHitSound;
+
 	// Use this for initialization
 	void Start () {
 		Debug.Log ("Brick constructed: " + Time.realtimeSinceStartup);
@@ -19,5 +21,15 @@ public class Brick : MonoBehaviour {
 
 	void OnDestroy() {
 		Debug.Log ("Brick destroyed: " + Time.realtimeSinceStartup);
+	}
+
+	void OnCollisionEnter(Collision collision) {
+		if(collision.collider.CompareTag("Ball")){
+			PlaySound();
+		}
+	}
+
+	void PlaySound () {
+		BallHitSound.Play ();
 	}
 }
