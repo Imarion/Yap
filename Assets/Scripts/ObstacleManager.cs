@@ -11,10 +11,13 @@ public class ObstacleManager : MonoBehaviour {
 	private int ObstacleIndex = -1;
 	private GameObject curObstacle;
 
+	private SpawnPosition SpawnPositionScript; 
+
 	private Coroutine ObstacleLoopCoroutine = null;
 
 	// Use this for initialization
 	void Start () {
+		SpawnPositionScript = GetComponent ("SpawnPosition") as SpawnPosition;
 		NewObstacleWait = new WaitForSeconds (ObstacleDelay);
 	}
 	
@@ -58,6 +61,6 @@ public class ObstacleManager : MonoBehaviour {
 	}
 
 	private void CreateObstacle () {
-		curObstacle = Instantiate (Obstacles[ObstacleIndex]);
+		curObstacle = Instantiate (Obstacles[ObstacleIndex], SpawnPositionScript.GetRandomPos(), Quaternion.identity);
 	}
 }

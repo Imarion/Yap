@@ -204,5 +204,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15148e9b21edd3e468036ab8dcc8ac49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Lifetime: 3
+  Lifetime: 4
   BallHitSound: {fileID: 82683012310429176}
