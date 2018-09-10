@@ -9,6 +9,9 @@ public class Brick : MonoBehaviour {
 
 	public AudioSource BallHitSound;
 
+	[HideInInspector]
+	public int id { get; set; }
+
 	// Use this for initialization
 	void Start () {
 		Debug.Log ("Brick constructed: " + Time.realtimeSinceStartup);
@@ -22,6 +25,7 @@ public class Brick : MonoBehaviour {
 
 	void OnDestroy() {
 		Debug.Log ("Brick destroyed: " + Time.realtimeSinceStartup);
+		ObstacleManager.instance.RemoveMe (this.gameObject);
 	}
 
 	void OnCollisionEnter(Collision collision) {
