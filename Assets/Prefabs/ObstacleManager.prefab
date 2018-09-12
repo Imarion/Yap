@@ -67,4 +67,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   center: {x: 0, y: 0, z: 0}
-  size: {x: 8, y: 10, z: 1}
+  size: {x: 8, y: 9, z: 1}
