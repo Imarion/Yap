@@ -96,7 +96,8 @@ public class ObstacleManager : MonoBehaviour {
 
 	private void CreateObstacle () {
 		//curObstacle = Instantiate (Obstacles[ObstacleIndex], SpawnPositionScript.GetRandomPos(), Quaternion.identity);
-		curObstacles.Add(Instantiate (Obstacles[ObstacleIndex], SpawnPositionScript.GetRandomPos(), Quaternion.identity));
+		//curObstacles.Add(Instantiate (Obstacles[ObstacleIndex], SpawnPositionScript.GetRandomPos(), Quaternion.identity));
+		curObstacles.Add(Instantiate (Obstacles[ObstacleIndex], SpawnPositionScript.GetRandomPos(), Obstacles[ObstacleIndex].transform.rotation));
 	}
 
 	private void DestroyObstacles() {

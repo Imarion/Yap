@@ -1,16 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
-public class Brick : MonoBehaviour {
-
-	public float Lifetime = 3;
-
-	public AudioSource BallHitSound;
-
-	[HideInInspector]
-	public int id { get; set; }
+public class ConcreteObstacle : Obstacle {
 
 	// Use this for initialization
 	void Start () {
@@ -23,18 +15,9 @@ public class Brick : MonoBehaviour {
 		
 	}
 
-	void OnDestroy() {
-		Debug.Log ("Brick destroyed: " + Time.realtimeSinceStartup);
-		ObstacleManager.instance.RemoveMe (this.gameObject);
-	}
-
 	void OnCollisionEnter(Collision collision) {
 		if(collision.collider.CompareTag("Ball")){
 			PlaySound();
 		}
-	}
-
-	void PlaySound () {
-		BallHitSound.Play ();
 	}
 }
